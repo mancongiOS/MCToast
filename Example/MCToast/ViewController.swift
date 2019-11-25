@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         
-        /// 是否需要配置
+        /// 是否需要配置UI
 //        MCToastConfig.shared.background.size = CGSize.init(width: 200, height: 200)
 //        MCToastConfig.shared.icon.size = CGSize.init(width: 150, height: 150)
 //        MCToastConfig.shared.icon.successImage = UIImage.init(named: "code")
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
         return tableView
     }()
 
-    lazy var dataArray = ["纯文本", "长段纯文本", "加载","成功","失败","警告", "等待","其他","状态栏"]
+    lazy var dataArray = ["纯文本", "长段纯文本", "加载","成功","失败","警告", "等待","其他","状态栏","处理loading中页面返回"]
 }
 
 
@@ -111,6 +111,9 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
             MCToast.mc_other("其他")
         case 8:
             MCToast.mc_statusBar("有内容更新啦，赶紧看看吧", backgroundColor: nil)
+        case 9:
+            let vc = LoadingViewController()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
             
