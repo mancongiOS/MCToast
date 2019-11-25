@@ -15,7 +15,7 @@ import UIKit
 public class MCToastConfig: NSObject {
     public static let shared = MCToastConfig()
     
-    /// 设置交互区域
+    /// 设置交互区域 默认导航栏下禁止交互
     public var eventType = MCToastEventType.navBarRespond
     public var background = Background()
     public var icon = Icon()

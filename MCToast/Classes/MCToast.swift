@@ -507,7 +507,7 @@ extension MCToast {
     static func createWindow(eventType: MCToastEventType, autoFrame: CGRect) -> UIWindow {
         
         let window = UIWindow()
-        window.backgroundColor = UIColor.orange
+        window.backgroundColor = UIColor.clear
         
         
         switch eventType {
@@ -517,7 +517,14 @@ extension MCToast {
             let vc = UIViewController.current()
             let rectNav = vc.navigationController?.navigationBar.frame
             let maxY = rectNav?.maxY ?? 0
-            window.frame = CGRect.init(x: 0, y: maxY, width: kScreenWidth, height: kScreenHeight - maxY)
+            
+            if vc.navigationController != nil && vc.navigationController?.navigationBar.isHidden == false {
+                window.frame = CGRect.init(x: 0, y: maxY, width: kScreenWidth, height: kScreenHeight - maxY)
+            } else {
+                window.frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight)
+            }
+            
+            
         case .respond:
             window.frame = autoFrame
             window.center = keyWindow!.center

@@ -89,7 +89,7 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         switch indexPath.row {
         case 0:
             
-            MCToast.mc_text("这是一个纯文本的展示", autoClearTime: 10, font: UIFont.systemFont(ofSize: 15))
+            MCToast.mc_text("这是一个纯文本的展示", autoClearTime: 2, font: UIFont.systemFont(ofSize: 15))
         case 1:
             MCToast.mc_text("这是一个很长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长的纯文本的展示")
 
