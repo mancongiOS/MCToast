@@ -14,6 +14,7 @@ private let sn_topBar: Int = 1001
 
 
 private let kScreenWidth = UIScreen.main.bounds.size.width
+private let kScreenHeight = UIScreen.main.bounds.size.height
 
 /// toast内边距 （toast和其中的内容的最小边距）
 private let kMinPadding: CGFloat = 10
@@ -22,7 +23,7 @@ private let kMinMargin: CGFloat = 30
 
 
 
-/// 消息类型
+/// Toast类型
 enum MCToastType {
     /// 纯文字
     case text
@@ -41,6 +42,15 @@ enum MCToastType {
 }
 
 
+public enum MCToastEventType {
+    
+    /// Toast展示期间不允许事件交互
+    case noRespond
+    /// Toast展示期间允许事件交互
+    case respond
+    /// Toast展示期间只允许导航条交互
+    case navBarRespond
+}
 
 public class MCToast: NSObject {
     
@@ -206,17 +216,10 @@ extension MCToast {
         _ text: String,
         autoClear: Bool,
         autoClearTime: CGFloat,
-        font: UIFont) -> UIWindow {
+        font: UIFont,
+        eventType: MCToastEventType) -> UIWindow {
         
         clearAllToast()
-
-        
-        let window = UIWindow()
-        window.backgroundColor = UIColor.clear
-        
-        let mainView = UIView()
-        mainView.layer.cornerRadius = 10
-        mainView.backgroundColor = MCToastConfig.shared.background.color
         
         let label = UILabel()
         label.text = text
@@ -225,32 +228,31 @@ extension MCToast {
         label.textAlignment = .center
         label.textColor = UIColor.white
         
+        let labelWidth = kScreenWidth-(kMinMargin + kMinPadding) * 2
         
-        let size = label.sizeThatFits(CGSize(width: kScreenWidth-(kMinMargin + kMinPadding) * 2, height: CGFloat.greatestFiniteMagnitude))
-        label.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        mainView.addSubview(label)
-        
-        
+        let size = label.sizeThatFits(CGSize(width: labelWidth, height: CGFloat.greatestFiniteMagnitude))
+
+        label.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+
+
         let superFrame = CGRect(x: 0, y: 0, width: label.frame.width + 2*kMinMargin, height: label.frame.height + 30)
-        window.frame = superFrame
-        mainView.frame = superFrame
+
         
-        label.center = mainView.center
-        window.center = keyWindow!.center
+        let mainView = MCToast.createMainView(frame: superFrame)
         
-        if let version = Double(UIDevice.current.systemVersion),
-            version < 9.0 {
-            // change center
-            window.center = getRealCenter()
-            // change direction
-            window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
-        }
         
-        window.windowLevel = UIWindow.Level.alert
-        window.isHidden = false
+        let window = MCToast.createWindow(eventType: eventType, autoFrame: superFrame)
+        
+
         window.addSubview(mainView)
-        windows.append(window)
+        mainView.center = CGPoint.init(x: window.frame.size.width/2, y: kScreenHeight/2 - window.frame.origin.y)
+            
+        mainView.addSubview(label)
+        label.center = CGPoint.init(x: mainView.frame.size.width/2, y: mainView.frame.size.height/2)
+
         
+        windows.append(window)
+
         if autoClear {
             self.perform(.hideNotice, with: window, afterDelay: TimeInterval(autoClearTime))
         }
@@ -276,7 +278,8 @@ extension MCToast {
         text: String,
         font: UIFont,
         autoClear: Bool,
-        autoClearTime: CGFloat) -> UIWindow {
+        autoClearTime: CGFloat,
+        eventType: MCToastEventType) -> UIWindow {
         
         clearAllToast()
 
@@ -292,13 +295,14 @@ extension MCToast {
         let frame = CGRect(x: 0, y: 0, width: kToastSize.width, height: kToastSize.height)
         
         
-        let window = UIWindow()
-        window.backgroundColor = UIColor.clear
+        let window = MCToast.createWindow(eventType: eventType, autoFrame: frame)
         
-        let mainView = UIView()
-        mainView.layer.cornerRadius = 10
-        mainView.backgroundColor = MCToastConfig.shared.background.color
         
+        let mainView = MCToast.createMainView(frame: frame)
+        
+        window.addSubview(mainView)
+        mainView.center = CGPoint.init(x: window.frame.size.width/2, y: kScreenHeight/2 - window.frame.origin.y)
+
         
         let activity = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
         
@@ -320,29 +324,7 @@ extension MCToast {
         
         label.frame = CGRect(x: 5, y: activity.frame.maxY + 12, width: kToastSize.width - 10, height: 18)
         mainView.addSubview(label)
-        
-        
-        window.frame = frame
-        mainView.frame = frame
-        window.center = keyWindow!.center
-        
-        
-        if let version = Double(UIDevice.current.systemVersion),
-            version < 9.0 {
-            window.center = getRealCenter()
-            window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
-        }
-        
-        window.windowLevel = UIWindow.Level.alert
-        window.isHidden = false
-        window.addSubview(mainView)
-        windows.append(window)
-        
-        mainView.alpha = 0.0
-        UIView.animate(withDuration: 0.2, animations: {
-            mainView.alpha = 1
-        })
-        
+                
         
         if autoClear {
             self.perform(.hideNotice, with: window, afterDelay: TimeInterval(autoClearTime))
@@ -374,7 +356,8 @@ extension MCToast {
         text: String,
         autoClear: Bool,
         autoClearTime: CGFloat,
-        font:UIFont) -> UIWindow {
+        font:UIFont,
+        eventType: MCToastEventType) -> UIWindow {
         
         
         clearAllToast()
@@ -388,12 +371,13 @@ extension MCToast {
         
         
         let frame = CGRect(x: 0, y: 0, width: kToastSize.width, height: kToastSize.height)
-        let window = UIWindow()
-        window.backgroundColor = UIColor.clear
-        let mainView = UIView()
-        mainView.layer.cornerRadius = 10
-        mainView.backgroundColor = MCToastConfig.shared.background.color
         
+        let window = MCToast.createWindow(eventType: eventType, autoFrame: frame)
+        
+        let mainView = MCToast.createMainView(frame: frame)
+        window.addSubview(mainView)
+        mainView.center = CGPoint.init(x: window.frame.size.width/2, y: kScreenHeight/2 - window.frame.origin.y)
+
         
         var imageName = ""
         switch type {
@@ -460,28 +444,9 @@ extension MCToast {
         label.textAlignment = NSTextAlignment.center
         mainView.addSubview(label)
         
-        window.frame = frame
-        mainView.frame = frame
-        window.center = keyWindow!.center
         
-        if let version = Double(UIDevice.current.systemVersion),
-            version < 9.0 {
-            // change center
-            window.center = getRealCenter()
-            // change direction
-            window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
-        }
-        
-        window.windowLevel = UIWindow.Level.alert
-        window.center = keyWindow!.center
-        window.isHidden = false
         window.addSubview(mainView)
         windows.append(window)
-        
-        mainView.alpha = 0.0
-        UIView.animate(withDuration: 0.2, animations: {
-            mainView.alpha = 1
-        })
         
         if autoClear {
             self.perform(.hideNotice, with: window, afterDelay: TimeInterval(autoClearTime))
@@ -535,41 +500,59 @@ extension MCToast {
 
 
 
-@objc extension Bundle {
-    
-    /**
-     * 加载指定bundle下的图片资源
-     * 在哪个pod下的哪个bundle下的image
-     */
-    static func loadImage(_ imageName: String, from bundleName: String, in podName: String) -> UIImage? {
-        
-        
-        var associateBundleURL = Bundle.main.url(forResource: "Frameworks", withExtension: nil)
-        associateBundleURL = associateBundleURL?.appendingPathComponent(podName)
-        associateBundleURL = associateBundleURL?.appendingPathExtension("framework")
-       
-        
-        if associateBundleURL == nil {
-            print("获取bundle失败")
-            return nil
-        }
 
+extension MCToast {
+    
+    /// 创建Window
+    static func createWindow(eventType: MCToastEventType, autoFrame: CGRect) -> UIWindow {
         
-        let associateBunle = Bundle.init(url: associateBundleURL!)
-        associateBundleURL = associateBunle?.url(forResource: bundleName, withExtension: "bundle")
-        let bundle = Bundle.init(url: associateBundleURL!)
-        let scale = Int(UIScreen.main.scale)
+        let window = UIWindow()
+        window.backgroundColor = UIColor.orange
         
-        // 适配2x还是3x图片
-        let name = imageName + "@" + String(scale) + "x"
-        let path = bundle?.path(forResource: name, ofType: "png")
         
-        if path == nil {
-            print("获取bundle失败")
-            return nil
+        switch eventType {
+        case .noRespond:
+            window.frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight)
+        case .navBarRespond:
+            let vc = UIViewController.current()
+            let rectNav = vc.navigationController?.navigationBar.frame
+            let maxY = rectNav?.maxY ?? 0
+            window.frame = CGRect.init(x: 0, y: maxY, width: kScreenWidth, height: kScreenHeight - maxY)
+        case .respond:
+            window.frame = autoFrame
+            window.center = keyWindow!.center
         }
         
-        let image1 = UIImage.init(contentsOfFile: path!)
-        return image1
+
+
+        if let version = Double(UIDevice.current.systemVersion),
+            version < 9.0 {
+            // change center
+            window.center = getRealCenter()
+            // change direction
+            window.transform = CGAffineTransform(rotationAngle: CGFloat(degree * Double.pi / 180))
+        }
+        
+        window.windowLevel = UIWindow.Level.alert
+        window.isHidden = false
+        
+        return window
+    }
+    
+    
+    static func createMainView(frame: CGRect) -> UIView {
+        
+        let mainView = UIView()
+        mainView.layer.cornerRadius = 10
+        mainView.backgroundColor = MCToastConfig.shared.background.color
+        
+        mainView.frame = frame
+
+        mainView.alpha = 0.0
+        UIView.animate(withDuration: 0.2, animations: {
+            mainView.alpha = 1
+        })
+
+        return mainView
     }
 }

@@ -1,5 +1,5 @@
 PODS:
-  - MCToast (0.0.1)
+  - MCToast (0.0.2)
 
 DEPENDENCIES:
   - MCToast (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MCToast: c0d0d3fad376ae0e539a3cfb1357fad1b30666c9
+  MCToast: e31c3f909883ff82259e46ac05195fcee83dc79d
 
-PODFILE CHECKSUM: 395b75f04931633c37b2da8d99b5f96341c4d6f4
+PODFILE CHECKSUM: c8a6ae15be562ddd0a76d7e7ab99c588842cfd6c
 
 COCOAPODS: 1.8.4

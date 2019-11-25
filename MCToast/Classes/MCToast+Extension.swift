@@ -22,12 +22,13 @@ extension MCToast {
     public static func mc_text(
         _ text: String,
         autoClearTime: CGFloat = MCToastConfig.shared.autoClearTime,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
         
         let autoClear : Bool = autoClearTime > 0 ? true : false
       
         DispatchQueue.main.async {
-            MCToast.showText(text, autoClear: autoClear, autoClearTime: autoClearTime, font: font)
+            MCToast.showText(text, autoClear: autoClear, autoClearTime: autoClearTime, font: font, eventType: eventType)
         }
     }
 
@@ -41,12 +42,13 @@ extension MCToast {
     public static func mc_loading(
         text: String = "正在加载中",
         autoClearTime: CGFloat = 10,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
 
         let autoClear : Bool = autoClearTime > 0 ? true : false
         
         DispatchQueue.main.async {
-            MCToast.loading(text: text, font: font, autoClear: autoClear, autoClearTime: autoClearTime)
+            MCToast.loading(text: text, font: font, autoClear: autoClear, autoClearTime: autoClearTime, eventType: eventType)
         }
     }
     
@@ -62,12 +64,13 @@ extension MCToast {
     public static func mc_success(
         _ text:String,
         autoClearTime: CGFloat = MCToastConfig.shared.autoClearTime,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
 
         let autoClear : Bool = autoClearTime > 0 ? true : false
         
         DispatchQueue.main.async {
-            MCToast.showNoticeWithText(.success, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font)
+            MCToast.showNoticeWithText(.success, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font, eventType: eventType)
         }
     }
     
@@ -82,12 +85,13 @@ extension MCToast {
     public static func mc_failure(
         _ text: String,
         autoClearTime:CGFloat = MCToastConfig.shared.autoClearTime,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
 
         let autoClear : Bool = autoClearTime > 0 ? true : false
         
         DispatchQueue.main.async {
-            MCToast.showNoticeWithText(.failure, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font)
+            MCToast.showNoticeWithText(.failure, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font, eventType: eventType)
         }
     }
     
@@ -101,12 +105,13 @@ extension MCToast {
     public static func mc_wait(
         _ text: String,
         autoClearTime:CGFloat = MCToastConfig.shared.autoClearTime,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
         
         let autoClear : Bool = autoClearTime > 0 ? true : false
         
         DispatchQueue.main.async {
-            MCToast.showNoticeWithText(.wait, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font)
+            MCToast.showNoticeWithText(.wait, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font, eventType: eventType)
         }
     }
 
@@ -121,12 +126,13 @@ extension MCToast {
     public static func mc_warning(
         _ text: String,
         autoClearTime:CGFloat = MCToastConfig.shared.autoClearTime,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
         
         let autoClear : Bool = autoClearTime > 0 ? true : false
        
         DispatchQueue.main.async {
-            MCToast.showNoticeWithText(.warning, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font)
+            MCToast.showNoticeWithText(.warning, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font, eventType: eventType)
         }
     }
 
@@ -140,12 +146,13 @@ extension MCToast {
     public static func mc_other(
         _ text: String,
         autoClearTime:CGFloat = MCToastConfig.shared.autoClearTime,
-        font: UIFont = MCToastConfig.shared.text.font) {
+        font: UIFont = MCToastConfig.shared.text.font,
+        eventType: MCToastEventType = MCToastConfig.shared.eventType) {
         
         let autoClear : Bool = autoClearTime > 0 ? true : false
         
         DispatchQueue.main.async {
-            MCToast.showNoticeWithText(.other, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font)
+            MCToast.showNoticeWithText(.other, text: text, autoClear: autoClear, autoClearTime: autoClearTime, font: font, eventType: eventType)
         }
     }
 

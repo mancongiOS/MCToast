@@ -9,13 +9,19 @@
 import Foundation
 import UIKit
 
+
+
+
 public class MCToastConfig: NSObject {
     public static let shared = MCToastConfig()
     
+    /// 设置交互区域
+    public var eventType = MCToastEventType.navBarRespond
     public var background = Background()
     public var icon = Icon()
     public var text = Text()
 
+    
     /// 自动隐藏的时长
     public var autoClearTime: CGFloat = 1.5
 

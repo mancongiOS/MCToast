@@ -15,10 +15,8 @@ class LoadingViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.white
-        
-        
+                
         MCToast.mc_loading(text: "loading", autoClearTime: 1000, font: UIFont.boldSystemFont(ofSize: 15))
-        
     }
     
 

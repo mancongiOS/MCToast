@@ -16,6 +16,7 @@
 public class MCToastConfig: NSObject {
     public static let shared = MCToastConfig()
     
+    public var eventType = MCToastEventType.navBarRespond
     public var background = Background()
     public var icon = Icon()
     public var text = Text()
