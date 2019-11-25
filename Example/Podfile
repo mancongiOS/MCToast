@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'MCToast_Example' do
+  pod 'MCToast', :path => '../'
+
+  target 'MCToast_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
