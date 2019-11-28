@@ -27,3 +27,5 @@ class LoadingViewController: UIViewController {
         MCToast.mc_remove()
     }
 }
+
+

@@ -1,6 +1,6 @@
 {
   "name": "MCToast",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "summary": "Toast交互",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/mancongiOS/",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/mancongiOS/MCToast.git",
-    "tag": "0.0.2"
+    "tag": "0.0.4"
   },
   "platforms": {
     "ios": "8.0"

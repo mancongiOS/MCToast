@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         return tableView
     }()
 
-    lazy var dataArray = ["纯文本", "长段纯文本", "加载","成功","失败","警告", "等待","其他","状态栏","处理loading中页面返回"]
+    lazy var dataArray = ["纯文本", "长段纯文本", "加载","成功","失败","警告", "等待","其他","状态栏","处理loading中页面返回","自定义Toast iconImage", "设置文本显示的Y偏移量"]
 }
 
 
@@ -90,11 +90,14 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         case 0:
             
             MCToast.mc_text("这是一个纯文本的展示", autoClearTime: 2, font: UIFont.systemFont(ofSize: 15))
+            
+        
         case 1:
-            MCToast.mc_text("这是一个很长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长的纯文本的展示")
+            MCToast.mc_text("这是一个很长长长长长长长长长长长长长长长的纯文本的展示",
+                            autoClearTime: 2)
 
         case 2:
-            MCToast.mc_loading()
+            MCToast.mc_loading(autoClearTime: 2)
         case 3:
             MCToast.mc_success("设置成功")
         case 4:
@@ -110,10 +113,23 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         case 9:
             let vc = LoadingViewController()
             navigationController?.pushViewController(vc, animated: true)
+        case 10:
+            MCToast.mc_codeSuccess()
+        case 11:
+            MCToast.mc_text("设置文本Toast的偏移量", offset: 200)
         default:
             break
-            
         }
-        
+    }
+}
+
+
+extension MCToast {
+    
+    /// 发送验证码成功
+    public static func mc_codeSuccess() {
+
+        let image = UIImage.init(named: "codesend")
+        MCToast.showNoticeWithText(.success, text: "发送验证码成功", iconImage: image, autoClear: true, autoClearTime: 2, font: UIFont.systemFont(ofSize: 15), eventType: MCToastEventType.navBarRespond)
     }
 }

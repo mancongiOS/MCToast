@@ -24,7 +24,7 @@ private let kMinMargin: CGFloat = 30
 
 
 /// Toast类型
-enum MCToastType {
+public enum MCToastType {
     /// 纯文字
     case text
     /// 加载中
@@ -113,7 +113,7 @@ extension MCToast {
     ///   - font: 字体大小
     /// - Returns: UIWindow
     @discardableResult
-    static func noticeOnStatusBar(
+    public static func noticeOnStatusBar(
         _ text: String,
         autoClear: Bool,
         autoClearTime: CGFloat,
@@ -212,8 +212,9 @@ extension MCToast {
     ///   - font: 字体大小
     /// - Returns: UIWindow
     @discardableResult
-    static func showText(
+    public static func showText(
         _ text: String,
+        offset: CGFloat,
         autoClear: Bool,
         autoClearTime: CGFloat,
         font: UIFont,
@@ -245,7 +246,7 @@ extension MCToast {
         
 
         window.addSubview(mainView)
-        mainView.center = CGPoint.init(x: window.frame.size.width/2, y: kScreenHeight/2 - window.frame.origin.y)
+        mainView.center = CGPoint.init(x: window.frame.size.width/2, y: kScreenHeight/2 - window.frame.origin.y + offset)
             
         mainView.addSubview(label)
         label.center = CGPoint.init(x: mainView.frame.size.width/2, y: mainView.frame.size.height/2)
@@ -274,7 +275,7 @@ extension MCToast {
     ///   - timeInterval: 隐藏的时间。 设置为0，不隐藏
     /// - Returns: UIWindow
     @discardableResult
-    static func loading(
+    public static func loading(
         text: String,
         font: UIFont,
         autoClear: Bool,
@@ -346,14 +347,17 @@ extension MCToast {
     /// - Parameters:
     ///   - type: toast的类型
     ///   - text: 文字
+    ///   - iconImage: icon 图片。如果不为nil，优先用这个图
+
     ///   - autoClear: 是否自动隐藏
     ///   - autoClearTime: 自动隐藏的时间
     ///   - font: 字体的大小
     /// - Returns: UIWindow
     @discardableResult
-    static func showNoticeWithText(
+    public static func showNoticeWithText(
         _ type: MCToastType,
         text: String,
+        iconImage: UIImage?,
         autoClear: Bool,
         autoClearTime: CGFloat,
         font:UIFont,
@@ -398,7 +402,6 @@ extension MCToast {
         var image = Bundle.loadImage(imageName, from: "ToastBundle", in: "MCToast")
         
         
-        
         /// 外部是否配置了展示的icon
         switch type {
         case .success:
@@ -423,6 +426,10 @@ extension MCToast {
             }
         default:
             break
+        }
+
+        if let showImage = iconImage {
+            image = showImage
         }
 
         
