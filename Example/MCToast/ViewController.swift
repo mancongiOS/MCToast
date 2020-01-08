@@ -8,12 +8,9 @@
 
 import UIKit
 import MCToast
-//@_exported import MCToast
 
 class ViewController: UIViewController {
 
-
-    
     // life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
