@@ -1,11 +1,25 @@
 
 # Toast For Swift
+
+
+## 概要说明
+
+MCToast** 是Swift版本的HUD库，提供了显示纯文本的Toast，带有状态图片的Toast，带有loading样式的Toast。
+
+主要优点：
+
 * Swift语言实现的Toast交互功能库。
-* 内部处理了线程问题。
+* MCToast内部控制显示在主线程中，保证了线程安全性。
+* 提供了多种使用方式，方便快捷。
 * 支持UI的高度自定义。配置toast的小图标，文字大小和颜色等
-* 使用简单。
 * 内部处理了多个toast提示重叠显示的问题。
-* 
+
+
+
+## 样例展示
+
+
+
 # 使用
 1. 支持cocoPods
   ```
@@ -22,7 +36,7 @@ public class MCToastConfig: NSObject {
     public var text = Text()
 
     /// 自动隐藏的时长
-    public var autoClearTime: CGFloat = 1.5
+    public var duration: CGFloat = 1.5
 
     
     public struct Background {

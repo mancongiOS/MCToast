@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "MCToast.h"
 
 FOUNDATION_EXPORT double MCToastVersionNumber;
 FOUNDATION_EXPORT const unsigned char MCToastVersionString[];

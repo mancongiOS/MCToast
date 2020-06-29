@@ -2,7 +2,7 @@
 //  MCToastHelper.swift
 //  MCToast
 //
-//  Created by 满聪 on 2019/11/25.
+//  Created by Mccc on 2019/11/25.
 //
 
 import Foundation
@@ -23,28 +23,43 @@ import UIKit
         associateBundleURL = associateBundleURL?.appendingPathExtension("framework")
        
         
+        if associateBundleURL != nil {
+            let associateBunle = Bundle.init(url: associateBundleURL!)
+            associateBundleURL = associateBunle?.url(forResource: bundleName, withExtension: "bundle")
+            let bundle = Bundle.init(url: associateBundleURL!)
+            let scale = Int(UIScreen.main.scale)
+            
+            // 适配2x还是3x图片
+            let name = imageName + "@" + String(scale) + "x"
+            if let path = bundle?.path(forResource: name, ofType: "png") {
+                let image1 = UIImage.init(contentsOfFile: path)
+                return image1
+            }
+        }
+
+        return nil
+    }
+    
+    static func getBundleWithName(
+        _ bundleName: String,
+        inPod podName: String) -> Bundle? {
+        
+        
+        var associateBundleURL = Bundle.main.url(forResource: "Frameworks", withExtension: nil)
+        associateBundleURL = associateBundleURL?.appendingPathComponent(podName)
+        associateBundleURL = associateBundleURL?.appendingPathExtension("framework")
+       
+        
         if associateBundleURL == nil {
             print("获取bundle失败")
             return nil
         }
-
         
         let associateBunle = Bundle.init(url: associateBundleURL!)
         associateBundleURL = associateBunle?.url(forResource: bundleName, withExtension: "bundle")
         let bundle = Bundle.init(url: associateBundleURL!)
-        let scale = Int(UIScreen.main.scale)
-        
-        // 适配2x还是3x图片
-        let name = imageName + "@" + String(scale) + "x"
-        let path = bundle?.path(forResource: name, ofType: "png")
-        
-        if path == nil {
-            print("获取bundle失败")
-            return nil
-        }
-        
-        let image1 = UIImage.init(contentsOfFile: path!)
-        return image1
+    
+        return bundle
     }
 }
 
@@ -87,3 +102,5 @@ extension UIViewController {
         }
     }
 }
+
+

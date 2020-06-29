@@ -1,8 +1,7 @@
 {
   "name": "MCToast",
-  "version": "0.0.4",
-  "summary": "Toast交互",
-  "description": "TODO: Add long description of the pod here.",
+  "version": "0.1.0",
+  "summary": "Swift版本的HUD，支持多种自定义方案。使用方便。",
   "homepage": "https://github.com/mancongiOS/",
   "license": {
     "type": "MIT",
@@ -13,16 +12,21 @@
   },
   "source": {
     "git": "https://github.com/mancongiOS/MCToast.git",
-    "tag": "0.0.4"
+    "tag": "0.1.0"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "9.0"
   },
   "swift_versions": "5.0",
   "source_files": "MCToast/Classes/**/*",
   "resource_bundles": {
     "ToastBundle": [
       "MCToast/Assets/**/*"
+    ]
+  },
+  "dependencies": {
+    "lottie-ios": [
+
     ]
   },
   "swift_version": "5.0"

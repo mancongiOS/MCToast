@@ -1,16 +1,23 @@
 PODS:
-  - MCToast (0.0.4)
+  - lottie-ios (3.1.6)
+  - MCToast (0.1.0):
+    - lottie-ios
 
 DEPENDENCIES:
   - MCToast (from `../`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - lottie-ios
 
 EXTERNAL SOURCES:
   MCToast:
     :path: "../"
 
 SPEC CHECKSUMS:
-  MCToast: 91907d1a0d806b21a0d00f402dde03a0eaf3cc80
+  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
+  MCToast: accd8b0d4653bcd6b3b1a9770802c2358614e6a5
 
 PODFILE CHECKSUM: b62d644f03e9fa35dc602d717ce08189bb56406f
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

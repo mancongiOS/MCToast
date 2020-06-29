@@ -8,6 +8,7 @@
 
 import UIKit
 import MCToast
+import Lottie
 
 class ViewController: UIViewController {
 
@@ -15,17 +16,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        /// 是否需要配置UI
-//        MCToastConfig.shared.background.size = CGSize.init(width: 200, height: 200)
-//        MCToastConfig.shared.icon.size = CGSize.init(width: 150, height: 150)
-//        MCToastConfig.shared.icon.successImage = UIImage.init(named: "code")
+        // 最好写在appdelegate中
+        configToast()
 
-        MCToastConfig.shared.eventType = MCToastEventType.navBarRespond
-        
-        
-        
-        
         baseSetting()
         
         initUI()
@@ -39,10 +32,35 @@ class ViewController: UIViewController {
         return tableView
     }()
 
-    lazy var dataArray = ["纯文本", "长段纯文本", "加载","成功","失败","警告", "等待","其他","状态栏","处理loading中页面返回","自定义Toast iconImage", "设置文本显示的Y偏移量"]
+    lazy var dataArray = [
+        "纯文本",
+        "长段纯文本",
+        "文本的Y偏移量",
+        "状态-成功",
+        "状态-失败",
+        "状态-警告",
+        "状态-自定义",
+        "显示在状态栏",
+        "loading-系统",
+        "loading-帧动画",
+        "loading-json动画（依赖了Lottie三方库）",
+        "页面返回时，Toast的处理",
+        "多个状态切换的处理",
+        "动态改变文字内容"
+        ]
 }
 
-
+extension ViewController {
+    func configToast() {
+        /// 是否需要配置UI
+        //        MCToastConfig.shared.background.size = CGSize.init(width: 200, height: 200)
+        //        MCToastConfig.shared.icon.size = CGSize.init(width: 150, height: 150)
+        //        MCToastConfig.shared.icon.successImage = UIImage.init(named: "code")
+        
+//        MCToastConfig.shared.text.offset = (UIScreen.main.bounds.size.height / 2 - 120 - 150)
+        MCToastConfig.shared.respond = MCToast.MCToastRespond.respond
+    }
+}
 
 //MARK: UI的处理,通知的接收
 extension ViewController {
@@ -75,7 +93,7 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.backgroundColor = UIColor.white
         
-        cell.textLabel?.text = "展示" + dataArray[indexPath.row] + "提示"
+        cell.textLabel?.text = "\(indexPath.row + 1). " + dataArray[indexPath.row]
         
         return cell
     }
@@ -85,35 +103,74 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
 
         switch indexPath.row {
         case 0:
-            
-            MCToast.mc_text("这是一个纯文本的展示", autoClearTime: 2, font: UIFont.systemFont(ofSize: 15))
-            
-        
+            self.mc_text("这是一个纯文本的展示", duration: 2)
         case 1:
-            MCToast.mc_text("这是一个很长长长长长长长长长长长长长长长的纯文本的展示",
-                            autoClearTime: 2)
-
+            MCToast.mc_text("这是一个很长长长长长长长长长长长长长长长的纯文本的展示")
         case 2:
-            MCToast.mc_loading(autoClearTime: 2)
+            MCToast.mc_text("居中显示", offset: 0)
         case 3:
-            MCToast.mc_success("设置成功")
+            MCToast.mc_success("可能出现的长文本提示长文本内容")
         case 4:
-            MCToast.mc_failure("设置失败")
+            MCToast.mc_failure("失败")
         case 5:
             MCToast.mc_warning("警告")
         case 6:
-            MCToast.mc_warning("等待")
+            MCToast.mc_codeSuccess()
         case 7:
-            MCToast.mc_other("其他")
+            self.mc_statusBar("有内容更新啦，赶紧看看吧")
+            break
         case 8:
-            MCToast.mc_statusBar("有内容更新啦，赶紧看看吧", backgroundColor: nil)
+            MCToast.mc_loading(duration: 0)
         case 9:
+           let images = [
+               UIImage.init(named: "loading1"),
+               UIImage.init(named: "loading2"),
+               UIImage.init(named: "loading3"),
+               UIImage.init(named: "loading4"),
+               UIImage.init(named: "loading5"),
+               UIImage.init(named: "loading6"),
+               UIImage.init(named: "loading7"),
+           ]
+           MCToast.mc_loading(imageNames: images)
+        case 10:
+//            let animation = Animation.named("JSON动画")
+            MCToast.mc_loading(animation: nil, animationSpeed: 1, duration: 0, respond: .default) {
+                print("取消了")
+            }
+            break
+        case 11:
             let vc = LoadingViewController()
             navigationController?.pushViewController(vc, animated: true)
-        case 10:
-            MCToast.mc_codeSuccess()
-        case 11:
-            MCToast.mc_text("设置文本Toast的偏移量", offset: 200)
+        case 12:
+            MCToast.mc_text("开始上传", offset: 0, callback: {
+                MCToast.mc_loading(text: "上传中...", duration: 5, callback: {
+                    MCToast.mc_success("上传完成")
+                })
+            })
+        case 13:
+            let image = UIImage.init(named: "codesend")
+            let truples = MCToast.showStatus(nil, text: "倒计时", iconImage: image, duration: 5, respond: .respond)
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                UIView.animate(withDuration: 0.2) {
+                    truples.label.text = "倒计时 3"
+                    truples.imageView.image = UIImage.init(named: "toast_success")
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                UIView.animate(withDuration: 0.2) {
+                    truples.label.text = "倒计时 2"
+                    truples.imageView.image = UIImage.init(named: "toast_failure")
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+                UIView.animate(withDuration: 0.2) {
+                    truples.label.text = "倒计时 1"
+                    truples.imageView.image = UIImage.init(named: "toast_warning")
+                }
+            }
         default:
             break
         }
@@ -125,8 +182,7 @@ extension MCToast {
     
     /// 发送验证码成功
     public static func mc_codeSuccess() {
-
         let image = UIImage.init(named: "codesend")
-        MCToast.showNoticeWithText(.success, text: "发送验证码成功", iconImage: image, autoClear: true, autoClearTime: 2, font: UIFont.systemFont(ofSize: 15), eventType: MCToastEventType.navBarRespond)
+        MCToast.showStatus(nil, text: "发送验证码成功", iconImage: image, duration: 2, respond: .respond)
     }
 }
