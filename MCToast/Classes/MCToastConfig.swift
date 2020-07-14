@@ -16,7 +16,7 @@ public class MCToastConfig: NSObject {
     public static let shared = MCToastConfig()
     
     /// 设置交互区域 默认导航栏下禁止交互
-    public var respond = MCToast.MCToastRespond.navBarRespond
+    public var respond = MCToast.MCToastRespond.respond
     
     /// 背景的设置
     public var background = Background()

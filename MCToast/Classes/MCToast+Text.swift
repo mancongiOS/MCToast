@@ -45,7 +45,6 @@ extension MCToast {
             MCToast.showText(text, offset: offset, duration: duration, respond: respond, callback: callback)
         }
     }
-    
 }
 
 

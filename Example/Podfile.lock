@@ -1,6 +1,6 @@
 PODS:
   - lottie-ios (3.1.6)
-  - MCToast (0.1.0):
+  - MCToast (0.1.1):
     - lottie-ios
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
-  MCToast: accd8b0d4653bcd6b3b1a9770802c2358614e6a5
+  MCToast: 45fcf2a547bf409df8992399271bd6d7670331d5
 
 PODFILE CHECKSUM: b62d644f03e9fa35dc602d717ce08189bb56406f
 

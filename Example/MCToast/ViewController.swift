@@ -16,8 +16,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 最好写在appdelegate中
-        configToast()
 
         baseSetting()
         
@@ -48,18 +46,6 @@ class ViewController: UIViewController {
         "多个状态切换的处理",
         "动态改变文字内容"
         ]
-}
-
-extension ViewController {
-    func configToast() {
-        /// 是否需要配置UI
-        //        MCToastConfig.shared.background.size = CGSize.init(width: 200, height: 200)
-        //        MCToastConfig.shared.icon.size = CGSize.init(width: 150, height: 150)
-        //        MCToastConfig.shared.icon.successImage = UIImage.init(named: "code")
-        
-//        MCToastConfig.shared.text.offset = (UIScreen.main.bounds.size.height / 2 - 120 - 150)
-        MCToastConfig.shared.respond = MCToast.MCToastRespond.respond
-    }
 }
 
 //MARK: UI的处理,通知的接收
@@ -104,6 +90,7 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource {
         switch indexPath.row {
         case 0:
             self.mc_text("这是一个纯文本的展示", duration: 2)
+
         case 1:
             MCToast.mc_text("这是一个很长长长长长长长长长长长长长长长的纯文本的展示")
         case 2:
