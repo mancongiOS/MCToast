@@ -37,18 +37,18 @@ extension AppDelegate {
         
         
         // 1. 配置Toast弹出过程中的交互类型（MCToastRespond：禁止交互，导航栏下禁止交互，允许交互）
-        MCToastConfig.shared.respond = MCToast.MCToastRespond.respond
+        MCToastConfig.shared.respond = MCToast.MCToastRespond.allow
         
         
         // 2. 配置Toast核心区域（黑色区域）
         // 颜色
         MCToastConfig.shared.background.color = UIColor.black
         // 大小
-        MCToastConfig.shared.background.size = CGSize(width: 120, height: 120)
+        MCToastConfig.shared.icon.toastWidth = 120
         
         
         // 3. 配置状态Toast（成功，失败，警告等状态）的Icon
-        MCToastConfig.shared.icon.size = CGSize(width: 50, height: 50)
+        MCToastConfig.shared.icon.imageSize = CGSize(width: 50, height: 50)
         MCToastConfig.shared.icon.successImage = UIImage(named: "你成功状态的Icon")
         MCToastConfig.shared.icon.failureImage = UIImage(named: "你失败状态的Icon")
         MCToastConfig.shared.icon.warningImage = UIImage(named: "你警告状态的Icon")
@@ -62,9 +62,9 @@ extension AppDelegate {
         
         // 5. 配置间距
         // 外边距（toast距离屏幕边的最小边距
-        MCToastConfig.shared.spacing.margin = 55
+//        MCToastConfig.shared.spacing.margin = 55
         // 内边距（toast和其中的内容的最小边距）
-        MCToastConfig.shared.spacing.padding = 15
+//        MCToastConfig.shared.spacing.padding = 15
         
         
         // 6. 设置自动隐藏的时长
